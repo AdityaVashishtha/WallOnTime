@@ -6,6 +6,8 @@ from PIL import ImageDraw
 from PIL import ImageFilter
 from PIL import ImageEnhance
 
+import quoteLoader
+
 # CONSTANT Declaration for usage -----START
 FONT_COLOR = (200,230,255)
 FONT_SIZE = 30
@@ -21,6 +23,7 @@ not difficult either..
                     -  ABC Jones
 '''
 
+imageText,author = quoteLoader.loadQuote()
 
 # # # Structuring START #########################
 # TODO # 1. Quote Loader                        #
@@ -31,16 +34,16 @@ not difficult either..
 # # # Structuring END ###########################
 
 
-# print "downloading image started ....."
-# page = URL.urlopen("https://source.unsplash.com/random/1920x1080")
-# image_info = page.info()
-# print image_info
-# raw_data = page.read()
-# print "downloading image stop, writing to file ....."
-# image_file = open("images/wallie.jpeg","w")
-# image_file.write(raw_data)
-# page.close()
-# image_file.close()
+print "downloading image started ....."
+page = URL.urlopen("https://source.unsplash.com/random/1920x1080")
+image_info = page.info()
+print image_info
+raw_data = page.read()
+print "downloading image stop, writing to file ....."
+image_file = open("images/wallie.jpeg","w")
+image_file.write(raw_data)
+page.close()
+image_file.close()
 
 img = Image.open("images/wallie.jpeg")
 img = img.convert("RGBA")
@@ -60,6 +63,7 @@ draw.rectangle(((0, 0), im.size), fill=(50,50,50,127))
 im = Image.alpha_composite(im, tmp)
 draw = ImageDraw.Draw(im)
 draw.text((100,25), imageText , FONT_COLOR, font=font)
+draw.text((150,250),author,FONT_COLOR,font=font)
 img.paste(im,(1500,100,1900,400))
 
 news_im = img.crop(NEWS_BOX_SIZE)
