@@ -1,5 +1,4 @@
 import PIL
-import urllib as URL
 from PIL import ImageFont
 from PIL import Image
 from PIL import ImageDraw
@@ -7,14 +6,18 @@ from PIL import ImageFilter
 from PIL import ImageEnhance
 
 import quoteLoader
+import imageLoader
+import newsLoader
 
 # CONSTANT Declaration for usage -----START
 FONT_COLOR = (200,230,255)
-FONT_SIZE = 30
-FONT_APPLE_GARAMOND = "/usr/share/fonts/AppleGaramond-LightItalic.ttf"
+FONT_SIZE = 25
+FONT_APPLE_GARAMOND = "/usr/share/fonts/truetype/raleway-elementary/Raleway-Light.ttf"
 BOX_SIZE = (1500,100,1900,400)
 NEWS_BOX_SIZE = (1500,450,1900,980)
 RESIZE_FACTOR_LOGO = 1
+IMAGE_URL = "https://source.unsplash.com/random/1920x1080"
+IMAGE_PATH = "images/wallie.jpeg"
 # CONSTANT Declaration for usage -----END
 imageText='''
 The life is not Easy but it is 
@@ -26,24 +29,14 @@ not difficult either..
 imageText,author = quoteLoader.loadQuote()
 
 # # # Structuring START #########################
-# TODO # 1. Quote Loader                        #
-# TODO # 2. News Loader                         #
-# TODO # 3. Image Loader                        #
+# DONE # 1. Quote Loader                        #
+# DONE # 2. News Loader                         #
+# DONE # 3. Image Loader                        #
 # TODO # 4. Merger                              #
 # TODO # 5. Constant Storage                    #
 # # # Structuring END ###########################
 
-
-print "downloading image started ....."
-page = URL.urlopen("https://source.unsplash.com/random/1920x1080")
-image_info = page.info()
-print image_info
-raw_data = page.read()
-print "downloading image stop, writing to file ....."
-image_file = open("images/wallie.jpeg","w")
-image_file.write(raw_data)
-page.close()
-image_file.close()
+# imageLoader.loadImage(IMAGE_URL,IMAGE_PATH)
 
 img = Image.open("images/wallie.jpeg")
 img = img.convert("RGBA")
@@ -74,6 +67,26 @@ draw = ImageDraw.Draw(tmp)
 draw.rectangle(((0, 0), news_im.size), fill=(50,50,50,127))
 news_im = Image.alpha_composite(news_im, tmp)
 img.paste(news_im,NEWS_BOX_SIZE)
+
+feeds = newsLoader.loadFeeds()
+count = 1
+for feed in feeds:
+    print feed    
+    draw = ImageDraw.Draw(news_im)
+    feed_line = ''
+    word_count = 0
+    char_count = 0
+    for w in feed.split():
+        word_count = word_count + 1
+        char_count += len(w)
+        feed_line = feed_line+' '+w
+        if(word_count >= 4 or char_count >= 24):
+            feed_line += "\n"
+            word_count = 1
+            char_count = 1                  
+    draw.text((100,50+(150*(count-1))), feed_line , FONT_COLOR, font=font)    
+    img.paste(news_im,NEWS_BOX_SIZE)
+    count += 1
 
 img.paste(quote_logo_img,(1520,120),mask=quote_alpha)
 img.save("images/wallie_final.jpeg")
