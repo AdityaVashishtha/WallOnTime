@@ -9,7 +9,7 @@ def loadFeeds():
     feeds = []
     print "loading feeds ...."
     json_data = json.loads(data)
-    count = 3
+    count = 5
     for item in json_data['items']:
         feeds.append(item['title'])
         imageLoader.loadImage(item['description'].split('src="')[1].split("\"")[0],'images/temp_img/feed_'+str(count)+'.jpg')

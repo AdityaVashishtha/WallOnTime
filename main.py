@@ -12,9 +12,10 @@ import newsLoader
 # CONSTANT Declaration for usage -----START
 FONT_COLOR = (200,230,255)
 FONT_SIZE = 25
+FONT_SIZE_FEEDS = 20
 FONT_APPLE_GARAMOND = "/usr/share/fonts/truetype/raleway-elementary/Raleway-Light.ttf"
 BOX_SIZE = (1500,100,1900,400)
-NEWS_BOX_SIZE = (1500,450,1900,980)
+NEWS_BOX_SIZE = (1500,450,1900,1030)
 RESIZE_FACTOR_LOGO = 1
 IMAGE_URL = "https://source.unsplash.com/random/1920x1080"
 IMAGE_PATH = "images/wallie.jpeg"
@@ -36,7 +37,7 @@ imageText,author = quoteLoader.loadQuote()
 # TODO # 5. Constant Storage                    #
 # # # Structuring END ###########################
 
-# imageLoader.loadImage(IMAGE_URL,IMAGE_PATH)
+imageLoader.loadImage(IMAGE_URL,IMAGE_PATH)
 
 img = Image.open("images/wallie.jpeg")
 img = img.convert("RGBA")
@@ -68,11 +69,15 @@ draw.rectangle(((0, 0), news_im.size), fill=(50,50,50,127))
 news_im = Image.alpha_composite(news_im, tmp)
 img.paste(news_im,NEWS_BOX_SIZE)
 
+font = ImageFont.truetype(FONT_APPLE_GARAMOND , FONT_SIZE_FEEDS)
 feeds = newsLoader.loadFeeds()
 count = 1
+feeds_count = len(feeds)
 for feed in feeds:
     print feed    
     draw = ImageDraw.Draw(news_im)
+    temp_im = Image.open('images/temp_img/feed_'+str(feeds_count - count + 1)+'.jpg')
+    temp_im.thumbnail((128,128))    
     feed_line = ''
     word_count = 0
     char_count = 0
@@ -84,7 +89,8 @@ for feed in feeds:
             feed_line += "\n"
             word_count = 1
             char_count = 1                  
-    draw.text((100,50+(150*(count-1))), feed_line , FONT_COLOR, font=font)    
+    draw.text((158,30+(110*(count-1))), feed_line , FONT_COLOR, font=font)        
+    news_im.paste(temp_im,(30,30+(110*(count-1))))
     img.paste(news_im,NEWS_BOX_SIZE)
     count += 1
 
