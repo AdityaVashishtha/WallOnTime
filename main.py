@@ -4,6 +4,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFilter
 from PIL import ImageEnhance
+import os
 
 import quoteLoader
 import imageLoader
@@ -50,6 +51,10 @@ quote_alpha = quote_logo_img.split()[3]
 
 im = img.crop(BOX_SIZE)
 im = im.filter(ImageFilter.BLUR)
+im = im.filter(ImageFilter.BLUR)
+im = im.filter(ImageFilter.BLUR)
+im = im.filter(ImageFilter.BLUR)
+im = im.filter(ImageFilter.BLUR)
 im = im.convert("RGBA")
 tmp = Image.new('RGBA', im.size, (0,0,0,0))
 draw = ImageDraw.Draw(tmp)
@@ -61,6 +66,10 @@ draw.text((150,250),author,FONT_COLOR,font=font)
 img.paste(im,(1500,100,1900,400))
 
 news_im = img.crop(NEWS_BOX_SIZE)
+news_im = news_im.filter(ImageFilter.BLUR)
+news_im = news_im.filter(ImageFilter.BLUR)
+news_im = news_im.filter(ImageFilter.BLUR)
+news_im = news_im.filter(ImageFilter.BLUR)
 news_im = news_im.filter(ImageFilter.BLUR)
 news_im = news_im.convert("RGBA")
 tmp = Image.new('RGBA', news_im.size, (0,0,0,0))
@@ -96,3 +105,5 @@ for feed in feeds:
 
 img.paste(quote_logo_img,(1520,120),mask=quote_alpha)
 img.save("images/wallie_final.jpeg")
+
+os.system("/usr/bin/gsettings set org.gnome.desktop.background picture-uri file:$PWD/images/wallie_final.jpeg")
