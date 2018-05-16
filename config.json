@@ -1,0 +1,31 @@
+{
+    "image": {
+        "theme": "europe",
+        "resolution": "1920x1080"        
+    },    
+    "feed": {
+        "url": ""
+    },
+    "card": {
+        "quoteBoxSize": {
+            "left": 1450,
+            "top": 100,
+            "right": 1900,
+            "bottom": 400
+        },
+        "feedBoxSize": {
+            "left": 1450,
+            "top": 450,
+            "right": 1900,
+            "bottom": 1030
+        },
+        "useThemeColor": true,
+        "color": [250,230,250,127],
+        "fontColor": [90,70,90]        
+    },
+    "font": {
+        "fontLocation": "/usr/share/fonts/truetype/raleway-elementary/Raleway-Light.ttf",
+        "fontSize": 24,
+        "fontSizeFeeds": 20        
+    }
+}
